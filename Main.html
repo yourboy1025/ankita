@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Meri Chhoti si Jaan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Sacramento|Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(120deg, #f7c8e0 0%, #ffe6b7 100%);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    #cover {
+      position: fixed;
+      top:0;left:0;width:100vw;height:100vh;z-index:10;
+      background: rgba(255,255,255,0.96);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 1s;
+    }
+    #cover.fade {opacity:0;}
+    #main-content { opacity: 0; transition: opacity 1s; }
+    .birthday-box {
+      background: rgba(255,255,255,0.85);
+      border-radius: 2rem;
+      box-shadow: 0 10px 40px #d38bb970;
+      padding: 2rem 2.2rem;
+      text-align: center;
+      max-width:350px;
+      margin:auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .photo-circle {
+      width: 100px;
+      height: 100px;
+      border-radius:50%;
+      overflow: hidden;
+      margin:1.5rem auto 1rem;
+      box-shadow:0 0 12px #e9b5ec88;border:3px solid #c786ec;
+      background: #fff;
+    }
+    .photo-circle img { width:100%;height:100%;object-fit:cover; }
+    .romantic-message {
+      font-family: 'Sacramento', cursive;
+      font-size: 2rem;
+      color: #d95ca2;
+      margin-bottom: 1rem;
+    }
+    .cake {
+      margin: 1rem auto;
+      width:120px;height:120px;position:relative;
+    }
+    .cake-base {
+      width: 100px; height: 34px;
+      background: #ffb4ad;
+      border-radius: 0 0 60px 60px/0 0 34px 34px;
+      position: absolute; bottom:0; left:10px;
+      box-shadow:0 2px 6px #f59aae;
+    }
+    .icing { width:100px;height:20px; background: #fff3cd; border-radius:60px/20px;
+    position:absolute;left:10px;top:15px;box-shadow:0 2px 3px #f9e3e0;}
+    .candles {
+      position:absolute;top:0px;left:26px;width:65px;height:24px; display:flex;justify-content:space-between;
+    }
+    .candle {
+      width:9px;height:24px; background:#ffeec2; border-radius:3px;position:relative; 
+      cursor:pointer; box-shadow:0 1px 1px #dc85c0;
+      display:flex;align-items:flex-start;justify-content:center; transition:filter 0.3s;
+    }
+    .candle.off { filter: grayscale(1) brightness(0.6);}
+    .flame {
+      width:8px;height:16px;
+      background: radial-gradient(circle at 60% 30%, #facc6b 70%, #ff8505 100%);
+      border-radius:60% 60% 90% 90%;
+      position:absolute;top:-13px;left:0.3px;
+      opacity:1;transition:opacity 0.2s;animation:flame 1s infinite alternate;
+      box-shadow:0 0 14px 4px #fffda988;
+    }
+    .candle.off .flame {opacity:0;}
+    @keyframes flame {0%{transform:scaleY(1);}100%{transform:scaleY(1.1) scaleX(0.95);}}
+    .btn {
+      display:inline-block;padding:0.8em 1.7em;
+      background:linear-gradient(90deg,#fc8ba6 40%,#a873ea 100%);
+      color:#fff;border:none;border-radius:1.7em;font-size:1.12rem;font-weight:700;cursor:pointer;
+      margin-top:2rem;box-shadow:0 8px 22px #fa82bb22; transition:transform 0.1s;
+    }
+    .btn:active{transform:scale(0.97);}
+    #confetti,#hearts,#balloons{
+      position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:1002;pointer-events:none;display:none;
+    }
+    #nextpage{
+      display:none; position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;
+      background:linear-gradient(160deg,#ffa1e3 35%,#fffce7 100%);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;animation:fadeIn 1.5s;
+    }
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .love-scene{
+      margin-bottom:2rem;background:rgba(255,255,255,0.66);border-radius:2rem;
+      padding:2rem 2.5rem 1rem;text-align:center;box-shadow:0 8px 32px #d183c055; max-width:340px;
+    }
+    .love-scene .romantic-message{font-size:2.1rem;color:#b8246e;font-family:'Sacramento', cursive;}
+    .love-scene .photo-circle{width:70px;height:70px;}
+    .love-scene .text{color:#d95ca2;font-size:1rem;}
+    #hint{font-size:1rem;color:#555;margin-top:1rem;}
+    @media(max-width:600px){.birthday-box,.love-scene{padding:1rem;max-width:98vw;}
+      .photo-circle{width:70px;height:70px;}
+    }
+  </style>
+</head>
+<body>
+  <div id="cover">
+    <h2 style="color:#c52990;">💕 Welcome to the Magical Birthday! 💕</h2>
+    <p>Enter Password to unlock surprise:</p>
+    <form id="passwordForm">
+      <input type="password" id="pass" placeholder="Password..." required>
+      <input type="submit" value="Unlock">
+    </form>
+    <p style="font-size:0.9rem;color:#666;">Hint: 'love' या 'meri jaan'</p>
+  </div>
+  
+  <!-- Animations -->
+  <canvas id="confetti"></canvas>
+  <canvas id="hearts"></canvas>
+  <div id="balloons"></div>
+  
+  <div id="main-content">
+    <div class="birthday-box">
+      <div class="photo-circle">
+        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Nandini" />
+      </div>
+      <div class="romantic-message">
+        Happy Birthday <span id="bday-name">Nandini</span> 🌹💕
+      </div>
+      <p style="color:#a759b8; font-size:1rem;">
+        "तुम्हारी वजह से हर दिन खूबसूरत है, आज दिल से और भी प्यारा! Wishing you all the love, magic & happiness you deserve 💌"
+      </p>
+      <div class="cake">
+        <div class="candles" id="candles">
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+        </div>
+        <div class="icing"></div>
+        <div class="cake-base"></div>
+      </div>
+      <div id="hint">👇 कैंडल्स बुझाने के लिए उन पर क्लिक करें!</div>
+      <button class="btn" id="celebrateBtn" disabled> Celebrate! </button>
+    </div>
+  </div>
+  
+  <!-- Next Page -->
+  <div id="nextpage">
+    <div class="love-scene">
+      <div class="photo-circle">
+        <img src="a.jpg" alt="Ankita"/>
+      </div>
+      <div class="romantic-message">Happy Birthday Meri Jaan</div>
+      <div class="text">"तुम्हारी मुस्कान मेरी दुनिया है। आज का हर पल तुम्हारे नाम, तुम्हारी खुशी में है। I wish you all the happiness, love, and success…<br/><br/>Love you to moon & back! 💞"</div>
+    </div>
+    <button class="btn" onclick="location.reload()">😍 Back to Surprise</button>
+  </div>
+  <audio id="birthdaymusic" src="https://assets.mixkit.co/music/preview/mixkit-birthday-fireworks-634.mp3"></audio>
+
+  <script>
+    // Password Protection
+    const passwordForm = document.getElementById('passwordForm');
+    const cover = document.getElementById('cover');
+    const mainContent = document.getElementById('main-content');
+    const allowedPasswords = ['love', 'meri jaan', 'MyHoney', '❤️', 'pyar'];
+    passwordForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      let val = document.getElementById('pass').value.trim().toLowerCase();
+      if(allowedPasswords.includes(val)){
+        cover.classList.add('fade');
+        setTimeout(()=>{cover.style.display='none';mainContent.style.opacity = 1;}, 900);
+      }
+      else{
+        alert("Galat! Try again... Hint: 'love', 'meri jaan'");
+      }
+    });
+
+    // --- Interactive Candles Logic ---
+    const candles = Array.from(document.querySelectorAll('.candle'));
+    let candleOffCount = 0;
+    const celebrateBtn = document.getElementById('celebrateBtn');
+    candles.forEach(candle => {
+      candle.addEventListener('click', function(){
+        if(!candle.classList.contains('off')){
+          candle.classList.add('off');
+          candleOffCount++;
+          if(candleOffCount === candles.length){
+            celebrateBtn.disabled = false;
+            document.getElementById('hint').textContent="अब Celebrate! बटन दबाएं 🎉";
+          }
+        }
+      });
+    });
+
+    // --- Celebration Animation ---
+    celebrateBtn.addEventListener('click', function(){
+      triggerHearts();
+      triggerConfetti();
+      triggerBalloons();
+      let audio = document.getElementById('birthdaymusic');
+      audio.play().catch(()=>{});
+      mainContent.style.opacity = 0.1;
+      setTimeout(showNextPage, 3600);
+    });
+
+    // Floating Hearts
+    function triggerHearts(){
+      const canvas = document.getElementById('hearts');
+      canvas.style.display = 'block';
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const ctx = canvas.getContext('2d');
+      let hearts = [];
+      for(let i=0;i<25;i++){
+        hearts.push({
+          x: Math.random()*canvas.width,
+          y: canvas.height+30*Math.random(),
+          size: 22+Math.random()*12,
+          speed: 1.3+Math.random()*1.7,
+          angle: Math.PI*2*Math.random()
+        });
+      }
+      function drawHeart(x,y,size){
+        ctx.save();
+        ctx.translate(x,y);
+        ctx.rotate(Math.sin(y/60)*0.28);
+        ctx.scale(size/20,size/20);
+        ctx.beginPath();
+        ctx.moveTo(0,0);
+        ctx.bezierCurveTo(0,-3,5,-8,10,0);
+        ctx.bezierCurveTo(15,10,0,18,0,12);
+        ctx.bezierCurveTo(0,18,-15,10,-10,0);
+        ctx.bezierCurveTo(-5,-8,0,-3,0,0);
+        ctx.fillStyle="#ea8aac";
+        ctx.fill();
+        ctx.restore();
+      }
+      let frame=0;
+      function animate(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        hearts.forEach(h=>{
+          drawHeart(h.x,h.y,h.size);
+          h.y -= h.speed;
+          h.x += Math.sin(frame/20+h.angle)*1.09;
+        });
+        frame++;
+        if(frame<120) requestAnimationFrame(animate); else canvas.style.display='none';
+      }
+      animate();
+    }
+    // Confetti Animation
+    function triggerConfetti(){
+      const canvas = document.getElementById('confetti');
+      canvas.style.display='block';
+      canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+      const ctx = canvas.getContext('2d');
+      let confetti = [...Array(44)].map(()=>(
+        {x:Math.random()*canvas.width, y:Math.random()*canvas.height-60,
+        r:8+Math.random()*8, color:['#ff7eb4','#ffd26a','#95e1d3','#feb57a','#b388ff'][Math.floor(Math.random()*5)],
+        vx:(Math.random()-0.5)*2.5,vy:2+Math.random()*2}));
+      let frame=0;
+      function draw(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        confetti.forEach(dot=>{
+          ctx.beginPath();ctx.arc(dot.x,dot.y,dot.r,0,2*Math.PI);
+          ctx.fillStyle=dot.color;ctx.fill();
+          dot.x+=dot.vx;dot.y+=dot.vy;
+          if(dot.y>canvas.height)dot.y=-20;
+        });
+        frame++;if(frame<80)requestAnimationFrame(draw);else setTimeout(()=>canvas.style.display="none",800);
+      }
+      draw();
+    }
+    // Balloon Animation
+    function triggerBalloons(){
+      let balloons = document.getElementById('balloons');
+      balloons.style.display = 'block';
+      balloons.innerHTML = '';
+      for(let i=0;i<8;i++){
+        let b = document.createElement('div');
+        b.style.width = '38px'; b.style.height = '50px';
+        b.style.background = ['#ffa6c9','#b7a0f9','#8be8ff','#fffd7e','#ff93ce','#adf7a2','#ffb38e','#b3ffb7'][i%8];
+        b.style.borderRadius ='50% 50% 50% 50%/55% 55% 70% 70%';
+        b.style.position = 'absolute';
+        b.style.left = (8 + i*12 + Math.random()*4) + 'vw';
+        b.style.bottom = '-70px';
+        b.style.boxShadow = '0 2px 14px 2px #9993';
+        b.style.zIndex = 2;
+        b.style.border = '2px solid #fff8';
+        b.style.transition = 'bottom 3s cubic-bezier(.5,.19,.66,1.34)';
+        balloons.appendChild(b);
+        setTimeout(()=>{
+          b.style.bottom = (60 + Math.random()*14)+'vh';
+        },80+i*90);
+      }
+      setTimeout(()=>{balloons.style.display='none';balloons.innerHTML='';},3500);
+    }
+    // Next Page
+    function showNextPage(){
+      document.getElementById('nextpage').style.display='flex';
+    }
+    // Change name/photo if needed:
+    // document.getElementById('bday-name').textContent = "meri jaan";
+    // document.querySelectorAll('.photo-circle img')[0].src = "APNI_LINK";
+  </script>
+</body>
+</html>
